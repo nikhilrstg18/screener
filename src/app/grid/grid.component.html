@@ -1,0 +1,118 @@
+<table
+  datatable
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
+  class="row-border hover nowrap"
+  width="100%"
+>
+  <thead>
+    <tr>
+      <th class="text-center">{{ "Ticker" }}</th>
+      <!-- <th class="text-center">{{ "Open" }}</th>
+      <th class="text-center">{{ "High" }}</th> -->
+      <!-- <th class="text-center">{{ "Low" }}</th> -->
+      <th class="text-center">{{ "LTP" }}</th>
+      <th class="text-center">{{ "Prev" }}</th>
+      <th class="text-center">{{ "△" }}</th>
+      <th class="text-center">{{ "%△" }}</th>
+      <th class="text-center">{{ "nearWKH" }}</th>
+      <th class="text-center">{{ "nearWKL" }}</th>
+      <th class="text-center">{{ "M%△" }}</th>
+      <th class="text-center">{{ "Y%△" }}</th>
+      <th class="text-center">{{ "O=H=L" }}</th>
+      <th class="text-center">{{ "Strength" }}</th>
+      <th class="text-center">{{ "Call" }}</th>
+      <th class="text-center">{{ "S3" }}</th>
+      <th class="text-center">{{ "S2" }}</th>
+      <th class="text-center">{{ "S1" }}</th>
+      <th class="text-center">{{ "PP" }}</th>
+      <th class="text-center">{{ "R1" }}</th>
+      <th class="text-center">{{ "R2" }}</th>
+      <th class="text-center">{{ "R3" }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of nseData">
+      <td class="text-start">{{ data.symbol }}</td>
+      <!-- <td class="text-end">{{ data.open | number: "1.2-2" }}</td>
+      <td class="text-end">{{ data.dayHigh | number: "1.2-2" }}</td>
+      <td class="text-end">{{ data.dayLow | number: "1.2-2" }}</td> -->
+      <td class="text-end">{{ data.lastPrice | number: "1.2-2" }}</td>
+      <td class="text-end">{{ data.previousClose | number: "1.2-2" }}</td>
+      <td class="text-end">{{ data.change | number: "1.2-2" }}</td>
+      <td class="text-end">{{ data.pChange / 100 | percent }}</td>
+      <td class="text-end">{{ data.nearWKH / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">{{ data.nearWKL / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">{{ data.perChange30d / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">
+        {{ data.perChange365d / 100 | percent: "1.2-2" }}
+      </td>
+      <td class="text-start">{{ data.ohl }}</td>
+      <td class="text-end">{{ data.callStrength | number: "1.1-1" }}</td>
+      <td
+        class="text-start text-white"
+        [ngClass]="
+          data.call == 'Buy'
+            ? 'bg-success'
+            : data.call == 'Sell'
+            ? 'bg-danger'
+            : ''
+        "
+      >
+        {{ data.call }}
+      </td>
+
+      <td
+        class="text-end"
+        [ngClass]="
+          data.lastPrice - data.s3 < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.s3 | number: "1.2-2" }}
+      </td>
+      <td
+        class="text-end"
+        [ngClass]="
+          data.lastPrice - data.s2 < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.s2 | number: "1.2-2" }}
+      </td>
+      <td
+        class="text-end"
+        [ngClass]="
+          data.lastPrice - data.s1 < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.s1 | number: "1.2-2" }}
+      </td>
+
+      <td class="text-end">{{ data.pp | number: "1.2-2" }}</td>
+
+      <td
+        class="text-end"
+        [ngClass]="
+          data.r1 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.r1 | number: "1.2-2" }}
+      </td>
+      <td
+        class="text-end"
+        [ngClass]="
+          data.r2 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.r2 | number: "1.2-2" }}
+      </td>
+      <td
+        class="text-end"
+        [ngClass]="
+          data.r3 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
+        "
+      >
+        {{ data.r3 | number: "1.2-2" }}
+      </td>
+    </tr>
+  </tbody>
+</table>

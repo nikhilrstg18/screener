@@ -3,7 +3,60 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  sources: {
+    nse: {
+      domain: '',
+      endpoints: {},
+      indexes: {
+        market: [
+          'NIFTY 50',
+          'NIFTY NEXT 50',
+          'NIFTY 100',
+          'NIFTY 200',
+          'NIFTY 500',
+          'NIFTY MIDCAP 50',
+          'NIFTY MIDCAP 100',
+          'NIFTY SMALLCAP 100',
+          'INDIA VIX',
+          'NIFTY MIDCAP 150',
+          'NIFTY SMALLCAP 50',
+          'NIFTY SMALLCAP 250',
+          'NIFTY MIDSMALLCAP 400',
+          'NIFTY500 MULTICAP 50:25:25	',
+          'NIFTY LARGEMIDCAP 250',
+          'NIFTY MIDCAP SELECT',
+          'NIFTY TOTAL MARKET',
+          'NIFTY MICROCAP 250',
+        ],
+        sectoral: [
+          'NIFTY BANK',
+          'NIFTY AUTO',
+          'NIFTY FINANCIAL SERVICES',
+          'NIFTY FINANCIAL SERVICES 25/50',
+          'NIFTY FMCG',
+          'NIFTY IT',
+          'NIFTY MEDIA',
+          'NIFTY METAL',
+          'NIFTY PHARMA',
+          'NIFTY PSU BANK',
+          'NIFTY PRIVATE BANK',
+          'NIFTY REALTY',
+          'NIFTY HEALTHCARE INDEX',
+          'NIFTY CONSUMER DURABLES',
+          'NIFTY OIL & GAS',
+        ],
+      },
+    },
+    bse: {
+      domain: '',
+      endpoints: {},
+      indexes: {
+        market: [],
+        sectoral: [],
+      },
+    },
+  },
 };
 
 /*
