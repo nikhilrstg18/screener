@@ -1,57 +1,62 @@
 <section id="selectors">
   <div class="container">
-    <div class="card">
+    <div class="card shadow p-3 mb-4 bg-body rounded mt-2">
       <div class="row p-2">
         <div class="col">
-          <label for="source">Exchange&nbsp;:&nbsp;</label>
-          <select
-            class="form-select"
-            [(ngModel)]="sSource"
-            name=""
-            id="source"
-            (change)="setIndexTypes()"
-            placeholder="Select Exchange"
-          >
-            <option *ngFor="let s of sources" value="{{ s }}">
-              {{ s.toUpperCase() }}
-            </option>
-          </select>
+          <div class="form-floating">
+            <select
+              class="form-select"
+              [(ngModel)]="sSource"
+              name=""
+              id="source"
+              (change)="setIndexTypes()"
+              placeholder="Select Exchange"
+            >
+              <option *ngFor="let s of sources" value="{{ s }}">
+                {{ s.toUpperCase() }}
+              </option>
+            </select>
+            <label for="source">Exchange&nbsp;:&nbsp;</label>
+          </div>
         </div>
         <div class="col">
-          <label for="indexType">Type&nbsp;:&nbsp;</label>
-          <select
-            class="form-select"
-            [(ngModel)]="sIndexType"
-            name=""
-            id="indexType"
-            (change)="setIndices()"
-            placeholder="Select Type"
-          >
-            <option *ngFor="let it of indexTypes" value="{{ it }}">
-              {{ it.toUpperCase() }}
-            </option>
-          </select>
+          <div class="form-floating">
+            <select
+              class="form-select"
+              [(ngModel)]="sIndexType"
+              name=""
+              id="indexType"
+              (change)="setIndices()"
+              placeholder="Select Type"
+            >
+              <option *ngFor="let it of indexTypes" value="{{ it }}">
+                {{ it.toUpperCase() }}
+              </option>
+            </select>
+
+            <label for="indexType">Type&nbsp;:&nbsp;</label>
+          </div>
         </div>
         <div class="col">
-          <label for="indices"> Index&nbsp;:&nbsp;</label>
-          <select
-            class="form-select"
-            [(ngModel)]="sIndex"
-            name=""
-            id="indices"
-            (change)="getData()"
-            placeholder="Select Index"
-          >
-            <option *ngFor="let i of indexes" value="{{ i }}">
-              {{ i.toUpperCase() }}
-            </option>
-          </select>
+          <div class="form-floating">
+            <select
+              class="form-select"
+              [(ngModel)]="sIndex"
+              name=""
+              id="indices"
+              (change)="getData()"
+              placeholder="Select Index"
+            >
+              <option *ngFor="let i of indexes" value="{{ i.value }}">
+                {{ i.name.toUpperCase() }}
+              </option>
+            </select>
+
+            <label for="indices"> Index&nbsp;:&nbsp;</label>
+          </div>
         </div>
         <div class="col d-flex justify-content-center align-items-center">
-          <button
-            (click)="refreshGrid()"
-            class="btn btn-sm btn-primary btn-hover"
-          >
+          <button (click)="refreshGrid()" class="btn btn-primary btn-hover">
             Refresh
           </button>
         </div>
@@ -59,8 +64,51 @@
     </div>
   </div>
 </section>
-<section id="grid" class="container overflow-auto mt-4 mb-4">
-  <div>
+<section id="meta" class="container w-100">
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-header d-flex flex-row justify-content-between">
+      <span class="d-flex flex-row justify-content-between">
+        <span>{{ nseResponse?.name }}</span>
+        &nbsp;|&nbsp;<span
+          >{{ nseResponse?.marketStatus?.marketStatusMessage }}&nbsp;@&nbsp;{{
+            nseResponse?.timestamp | date: "short"
+          }}</span
+        >
+      </span>
+      <span class="d-flex flex-row justify-content-between">
+        <span class="text-success"
+          >Advances : {{ nseResponse?.advance?.advances }}</span
+        >
+        &nbsp;&nbsp;|&nbsp;<span class="text-danger">
+          Declines : {{ nseResponse?.advance?.declines }}</span
+        >
+        &nbsp;&nbsp;|&nbsp;<span
+          >Unchanged : {{ nseResponse?.advance?.unchanged }}</span
+        >
+      </span>
+    </div>
+    <!-- <div class="card-body">
+      <h6 class="card-title d-flex flex-row justify-content-between">
+        <span>{{ nseResponse?.marketStatus?.marketStatusMessage }}</span>
+        <span class="text-end"
+          >{{ nseResponse?.marketStatus?.marketStatusMessage }}&nbsp;@&nbsp;{{
+            nseResponse?.timestamp | date: "short"
+          }}</span
+        >
+      </h6>
+      <p class="card-text">
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </p>
+      <p class="card-text">
+        Some quick example text to build on the card title and make up the bulk
+        of the card's content.
+      </p>
+    </div> -->
+  </div>
+</section>
+<section id="grid" class="container-fluid overflow-auto">
+  <div class="card shadow p-3 mb-4 bg-body rounded mt-2">
     <app-grid
       [source]="sSource"
       [index]="sIndex"

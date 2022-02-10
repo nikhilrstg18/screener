@@ -2,10 +2,10 @@
   datatable
   [dtOptions]="dtOptions"
   [dtTrigger]="dtTrigger"
-  class="row-border hover nowrap"
+  class="table table-striped row-border hover nowrap"
   width="100%"
 >
-  <thead>
+  <thead class="table-light">
     <tr>
       <th class="text-center">{{ "Ticker" }}</th>
       <!-- <th class="text-center">{{ "Open" }}</th>
@@ -15,10 +15,7 @@
       <th class="text-center">{{ "Prev" }}</th>
       <th class="text-center">{{ "△" }}</th>
       <th class="text-center">{{ "%△" }}</th>
-      <th class="text-center">{{ "nearWKH" }}</th>
-      <th class="text-center">{{ "nearWKL" }}</th>
-      <th class="text-center">{{ "M%△" }}</th>
-      <th class="text-center">{{ "Y%△" }}</th>
+
       <th class="text-center">{{ "O=H=L" }}</th>
       <th class="text-center">{{ "Strength" }}</th>
       <th class="text-center">{{ "Call" }}</th>
@@ -29,6 +26,10 @@
       <th class="text-center">{{ "R1" }}</th>
       <th class="text-center">{{ "R2" }}</th>
       <th class="text-center">{{ "R3" }}</th>
+      <th class="text-center">{{ "nearWKH" }}</th>
+      <th class="text-center">{{ "nearWKL" }}</th>
+      <th class="text-center">{{ "M%△" }}</th>
+      <th class="text-center">{{ "Y%△" }}</th>
     </tr>
   </thead>
   <tbody>
@@ -41,13 +42,19 @@
       <td class="text-end">{{ data.previousClose | number: "1.2-2" }}</td>
       <td class="text-end">{{ data.change | number: "1.2-2" }}</td>
       <td class="text-end">{{ data.pChange / 100 | percent }}</td>
-      <td class="text-end">{{ data.nearWKH / 100 | percent: "1.2-2" }}</td>
-      <td class="text-end">{{ data.nearWKL / 100 | percent: "1.2-2" }}</td>
-      <td class="text-end">{{ data.perChange30d / 100 | percent: "1.2-2" }}</td>
-      <td class="text-end">
-        {{ data.perChange365d / 100 | percent: "1.2-2" }}
+
+      <td
+        class="text-start"
+        [ngClass]="
+          data.ohl == 'Long'
+            ? 'bg-info'
+            : data.ohl == 'Short'
+            ? 'bg-warning'
+            : ''
+        "
+      >
+        {{ data.ohl }}
       </td>
-      <td class="text-start">{{ data.ohl }}</td>
       <td class="text-end">{{ data.callStrength | number: "1.1-1" }}</td>
       <td
         class="text-start text-white"
@@ -62,56 +69,34 @@
         {{ data.call }}
       </td>
 
-      <td
-        class="text-end"
-        [ngClass]="
-          data.lastPrice - data.s3 < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.s3Color">
         {{ data.s3 | number: "1.2-2" }}
       </td>
-      <td
-        class="text-end"
-        [ngClass]="
-          data.lastPrice - data.s2 < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.s2Color">
         {{ data.s2 | number: "1.2-2" }}
       </td>
-      <td
-        class="text-end"
-        [ngClass]="
-          data.lastPrice - data.s1 < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.s1Color">
         {{ data.s1 | number: "1.2-2" }}
       </td>
 
-      <td class="text-end">{{ data.pp | number: "1.2-2" }}</td>
+      <td class="text-end" [style.backgroundColor]="data.ppColor">
+        {{ data.pp | number: "1.2-2" }}
+      </td>
 
-      <td
-        class="text-end"
-        [ngClass]="
-          data.r1 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.r1Color">
         {{ data.r1 | number: "1.2-2" }}
       </td>
-      <td
-        class="text-end"
-        [ngClass]="
-          data.r2 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.r2Color">
         {{ data.r2 | number: "1.2-2" }}
       </td>
-      <td
-        class="text-end"
-        [ngClass]="
-          data.r3 - data.lastPrice < 0.1 * data.lastPrice ? 'bg-warning' : ''
-        "
-      >
+      <td class="text-end" [style.backgroundColor]="data.r3Color">
         {{ data.r3 | number: "1.2-2" }}
+      </td>
+      <td class="text-end">{{ data.nearWKH / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">{{ data.nearWKL / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">{{ data.perChange30d / 100 | percent: "1.2-2" }}</td>
+      <td class="text-end">
+        {{ data.perChange365d / 100 | percent: "1.2-2" }}
       </td>
     </tr>
   </tbody>

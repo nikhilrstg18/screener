@@ -1,5 +1,6 @@
 const timeOut = 10000;
 const axios = require("axios");
+const { encode } = require("querystring");
 const cache = {};
 
 const defaultHeaders = {
@@ -13,33 +14,31 @@ const defaultHeaders = {
 
 const parseCookie = (headers) => {
   const setCookie = headers["set-cookie"][3].split("; ");
-  const cookie = setCookie[0].split("ak_bmsc=")[1];
-  const expires = setCookie[3].split("Expires=")[1];
-  cache["cookie"] = cookie;
-  cache["cookieExpires"] = expires;
-  return cookie;
+  cache["cookie"] = setCookie[0].split("ak_bmsc=")[1];
+  cache["cookieExpires"] = setCookie[3].split("Expires=")[1];
+  return cache["cookie"];
 };
 
 const getCookie = async (index) => {
   let cookie = "";
   console.log(new Date(cache["cookieExpires"]));
   console.log(new Date());
-  if (new Date(cache["cookieExpires"]) - new Date() > 0) {
-    cookie = cache["cookie"];
-  } else {
-    const headersResponse = await axios.get(
-      `https://www.nseindia.com/market-data/live-equity-market?symbol=${index}`,
-      {
-        //timeout: timeOut,
-        headers: {
-          Referer: "https://www.nseindia.com/get-quotes/equity?symbol=SBIN",
-          "X-Requested-With": "XMLHttpRequest",
-          ...defaultHeaders,
-        },
-      }
-    );
-    cookie = parseCookie(headersResponse.headers);
-  }
+  //   if (new Date(cache["cookieExpires"]) - new Date() > 0) {
+  //     cookie = cache["cookie"];
+  //   } else {
+  const headersResponse = await axios.get(
+    `https://www.nseindia.com/market-data/live-equity-market?symbol=${index}`,
+    {
+      //timeout: timeOut,
+      headers: {
+        Referer: "https://www.nseindia.com/market-data/live-market-indices",
+        "X-Requested-With": "XMLHttpRequest",
+        ...defaultHeaders,
+      },
+    }
+  );
+  cookie = parseCookie(headersResponse.headers);
+  //   }
   return cookie;
 };
 
@@ -49,7 +48,6 @@ const getData = async (index) => {
   const result = await axios.get(
     `https://www.nseindia.com/api/equity-stockIndices?index=${index}`,
     {
-      //timeout: timeOut,
       headers: {
         Referer: `https://www.nseindia.com/market-data/live-equity-market?symbol=${index}`,
         cookie: cache["cookie"],
@@ -57,6 +55,11 @@ const getData = async (index) => {
       },
     }
   );
+
+  const setCookie = result.headers["set-cookie"][0].split("; ");
+  cache["cookie"] = setCookie[0].split("ak_bmsc=")[1];
+  cache["cookieExpires"] = setCookie[3].split("Expires=")[1];
+
   return result;
 };
 

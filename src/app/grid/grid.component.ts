@@ -32,6 +32,7 @@ export class GridComponent implements OnInit, OnDestroy {
       responsive: true,
       scrollX: true,
       order: [],
+      processing: true,
     };
     this.refreshGrid$.subscribe((nseData: NSEData[]) => {
       this.nseData = nseData;
@@ -47,13 +48,6 @@ export class GridComponent implements OnInit, OnDestroy {
         });
       }
     });
-    // this._nseService
-    //   .getData(this.source, this.index)
-    //   .subscribe((response: NSEResponse) => {
-    //     this.nseData = response?.data || [];
-    //
-
-    //   });
   }
 
   ngOnDestroy(): void {

@@ -7,7 +7,7 @@ const getHandler = async (req, res) => {
     if (!req.query["i"]) {
       res.status(400).send("Missing index");
     }
-    const index = encodeURIComponent(req.query["i"].toUpperCase());
+    const index = req.query["i"].trim();
     const result = await nseService.getData(index);
     return res.status(result.status).send(result.data);
   } catch (err) {
